@@ -1,11 +1,87 @@
+<!DOCTYPE html>
 <html>
+	<head>
+	<meta charset="UTF-8">
+		<title>Preço da receita</title>
+		<script>	
+			var ing = 2;
+			function addIngrediente(){
+				var nova = document.getElementById("new");
+				var novadiv = document.createElement("div");
+				novadiv.innerHTML = "Ingrediente "+ing+": <input type='text' id='ingr"+ing+"' value='' size='20' /> Quantidade usada: <input type='number' id='qtdu"+ing+"' value='' size='10'/> Quantidade comprada: <input type='number' id='qtdc"+ing+"' value='' size='10'/> Medida: <select> <option id='unidade"+ing+"'>Unidade</option> <option id='gramas"+ing+"'>Gramas</option> <option id='litros"+ing+"'>Litros</option></select> Valor comprado (R$): <input type='number' id='valorc"+ing+"' value='' size='10' /> </br></br>";
+				nova.appendChild(novadiv);
 
-<head>
-</head>
-
-<body>
-<p>Hello World!</p>
-
-</body>
-
+				ing++;
+			}
+			
+			function getValue(){
+				var total=0;
+				for(var i = 1; i < ing; ++i){
+					var ingr = document.getElementById("ingr"+i+"").value;
+					var qtdu = document.getElementById("qtdu"+i+"").value;
+					var qtdc = document.getElementById("qtdc"+i+"").value;
+					var val = document.getElementById("valorc"+i+"").value;
+					
+					if(document.getElementById("unidade"+i+"").selected){
+						var und = "unidade";
+					}else if(document.getElementById("gramas"+i+"").selected){
+						var und = "gramas";
+					}else{
+						var und = "litros";
+					}
+					
+					var res = (qtdu*val)/qtdc;
+					total += res;
+					var conteudo = document.getElementById("texto");
+					var novadiv = document.createElement("div");
+					novadiv.innerHTML = ingr + " | " +  "Valor gasto do ingrediente (R$): " + res + "</br></br>";
+					conteudo.appendChild(novadiv);
+				}
+				
+				var conteudo = document.getElementById("texto");
+				var novadiv = document.createElement("div");
+				novadiv.innerHTML = "Total de gasto com a receita (R$): " + total;
+				conteudo.appendChild(novadiv);
+				
+			}
+		</script>
+		
+		<style>
+			h1{
+				font-size: 24px;
+				text-align: justify;
+				margin-left: 15px;
+				line-height:200%;
+				font-family:"Verdana";
+				color: #777; 
+			}
+			
+			.ingr{
+				font-size:40px;
+			
+			}
+		</style>
+	</head>
+	<body bgcolor="#E6E6FA">
+		<h1>Quais ingredientes você usará?</h1>
+		<br/>
+		<form>
+			Ingrediente 1: <input type="text" class="ingr" id="ingr1" size="20"/>
+			 Quantidade usada: <input type="number" id="qtdu1" size="5"/>
+			 Quantidade comprada: <input type="number" id="qtdc1" size="5"/>
+			 Medida: <select>
+					  <option id="unidade1">Unidade</option>
+					  <option id="gramas1">Gramas</option>
+					  <option id="litros1">Litros</option>
+					</select>
+			 Valor comprado (R$): <input type="number" id="valorc1" size="5"/></br></br>
+			 <div id="new"></div>
+			 
+			<input type="button" value="Adicionar ingrediente" onclick="addIngrediente()"/></br></br>
+			<input type="button" value="CONFIRMAR!" onclick="getValue()"/></br></br>
+			<div id="texto"></div>
+		</form>
+		<br/>
+		
+	</body>
 </html>
